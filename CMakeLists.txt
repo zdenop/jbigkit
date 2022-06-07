@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(jbigkit C)
 
+option(BUILD_PROGRAMS "Build programs." ON)
+option(BUILD_TOOLS "Build pbm tools." ON)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libjbig)
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O2 -DNDEBUG")
@@ -42,36 +45,40 @@ install(FILES
 # Programs
 ########################################
 
-add_executable (tstcodec "${CMAKE_CURRENT_SOURCE_DIR}/libjbig/tstcodec.c")
-set_target_properties(tstcodec PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (tstcodec libjbig$<$<CONFIG:Debug>:d>)
-install(TARGETS tstcodec RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+if(BUILD_PROGRAMS)
+  add_executable (tstcodec "${CMAKE_CURRENT_SOURCE_DIR}/libjbig/tstcodec.c")
+  set_target_properties(tstcodec PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (tstcodec libjbig$<$<CONFIG:Debug>:d>)
+  install(TARGETS tstcodec RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
-add_executable (tstcodec85 "${CMAKE_CURRENT_SOURCE_DIR}/libjbig/tstcodec85.c")
-set_target_properties(tstcodec85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (tstcodec85 libjbig85$<$<CONFIG:Debug>:d>)
-install(TARGETS tstcodec85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+  add_executable (tstcodec85 "${CMAKE_CURRENT_SOURCE_DIR}/libjbig/tstcodec85.c")
+  set_target_properties(tstcodec85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (tstcodec85 libjbig85$<$<CONFIG:Debug>:d>)
+  install(TARGETS tstcodec85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+endif(BUILD_PROGRAMS)
 
 ########################################
 # pbm tools
 ########################################
 
-add_executable (pbmtojbg "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm.c")
-set_target_properties(pbmtojbg PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (pbmtojbg libjbig$<$<CONFIG:Debug>:d>)
-install (TARGETS pbmtojbg RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+if(BUILD_TOOLS)
+  add_executable (pbmtojbg "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm.c")
+  set_target_properties(pbmtojbg PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (pbmtojbg libjbig$<$<CONFIG:Debug>:d>)
+  install (TARGETS pbmtojbg RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
-add_executable (jbgtopbm85 "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm85.c")
-set_target_properties(jbgtopbm85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (jbgtopbm85 libjbig85$<$<CONFIG:Debug>:d>)
-install (TARGETS jbgtopbm85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+  add_executable (jbgtopbm85 "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm85.c")
+  set_target_properties(jbgtopbm85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (jbgtopbm85 libjbig85$<$<CONFIG:Debug>:d>)
+  install (TARGETS jbgtopbm85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
-add_executable (jbgtopbm "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm.c")
-set_target_properties(jbgtopbm PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (jbgtopbm libjbig$<$<CONFIG:Debug>:d>)
-install (TARGETS jbgtopbm RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+  add_executable (jbgtopbm "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/jbgtopbm.c")
+  set_target_properties(jbgtopbm PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (jbgtopbm libjbig$<$<CONFIG:Debug>:d>)
+  install (TARGETS jbgtopbm RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 
-add_executable (pbmtojbg85 "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/pbmtojbg85.c")
-set_target_properties(pbmtojbg85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-target_link_libraries (pbmtojbg85 libjbig85$<$<CONFIG:Debug>:d>)
-install (TARGETS pbmtojbg85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+  add_executable (pbmtojbg85 "${CMAKE_CURRENT_SOURCE_DIR}/pbmtools/pbmtojbg85.c")
+  set_target_properties(pbmtojbg85 PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+  target_link_libraries (pbmtojbg85 libjbig85$<$<CONFIG:Debug>:d>)
+  install (TARGETS pbmtojbg85 RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+endif(BUILD_TOOLS)
